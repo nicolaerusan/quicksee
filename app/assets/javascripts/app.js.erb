@@ -1,0 +1,438 @@
+// Initialization Variables
+
+function getURLParameter(name) {
+	return decodeURI(
+		(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
+}
+
+function formatPhone(phone){
+    return phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+}
+
+var philadelphia = {
+	name: 'Philadelphia',
+	latlng: new google.maps.LatLng(39.9522, -75.1642)
+}
+
+var newyork = {
+	name: 'New York',
+	latlng: new google.maps.LatLng(40.7142, -74.0064)
+}
+
+// We default the city to New York, but when initializing the map
+// we check if a city param is passed in the URL.
+var city = newyork;
+var urlCity = getURLParameter('city');
+
+
+var App = {
+  init : function() {
+    App.header.init();
+    //App.renderHistory();
+    this.render();
+    
+    
+    $('.facility ').on('click', function(e) {
+      e.preventDefault();
+      
+      // $('#facilities .expanded').toggleClass('expanded', 400);
+      // $(this).parents('tr').toggleClass('expanded', 400).promise().done(function(e) {
+      //   $(this).find('dl').fadeIn();
+      // });
+      
+      $('#facilities .expanded').toggleClass('expanded');
+      $(this).toggleClass('expanded');
+      
+    });
+    
+    
+  },
+  
+  render : function() {
+    
+  },
+  
+  renderResults : function() {
+    var template_source   = $('#facility-template').html()
+      , template          = Handlebars.compile(template_source);
+      
+      var image = new google.maps.MarkerImage("<%= asset_path('marker.png') %>",
+        // This marker is 20 pixels wide by 32 pixels tall.
+        new google.maps.Size(20, 20),
+        // The origin for this image is 0,0.
+        new google.maps.Point(0,0),
+        // The anchor for this image is the base of the flagpole at 0,32.
+        new google.maps.Point(0, 20));
+    
+    
+    
+	$.each(App.map.facilities, function(i) {
+        this.name = this.provider.hp_provider_legal_name ?  this.provider.hp_provider_legal_name : this.provider.hp_provider_name;
+		var result = template(this);
+		this.address = this.hp_address_line1 + " " + this.hp_address_line2;
+		var content = "<h4 style='padding:0 20px 10px 0'>" + this.provider.hp_provider_legal_name + "</h4><small>"+this.address+"</small><br/><small>Phone : "+formatPhone(this.hp_telephone_number)+"</small><br/><small>2PM-3PM (Mock)</small>";
+		$(result).appendTo($('#facilities tbody'));
+      
+        
+      	if(this.qs_latitude){
+      		var latLongTemp = this.qs_longitude + "," + this.qs_latitude;
+      		console.log(latLongTemp); 
+      		
+      		$('#map_canvas').gmap(
+      			'addMarker', 
+      			{
+      				position: latLongTemp,   
+      				icon:image
+      			}
+      		).click(
+      			function() {
+      				$('#map_canvas').gmap('openInfoWindow', {'content': content}, this);
+      			}
+	      	);
+		}      		
+	});
+  },
+  
+  renderHistory  : function() {
+    var template_source   = $('#visit-template').html()
+      , template          = Handlebars.compile(template_source);
+      
+      
+    
+    $('#history tbody').empty();
+    
+    $.each(App.account.history, function(i) {
+      this.cycle = i%2 ? "odd" : "even";
+      var result = template(this);
+      
+      $(result).appendTo($('#history tbody'))
+    });
+  }
+}
+
+
+App.header = {
+  el          : 'body > header',
+  provider_el : '#provider-logo',
+  nav_el      : '#main-nav',
+  
+  init        : function() {
+    $('#account').on('click', this.toggle);
+    
+    $(this.nav_el).find('a').on('click', function(e) {
+      e.stopPropagation();
+      $(App.header.nav_el).find('a.active').removeClass('active');
+      $(this).addClass('active');
+    })
+    
+  },
+  toggle      : function(e, data) {
+    e.preventDefault();
+    
+    if($(App.header.el).hasClass('expanded')) {
+      $('#history').stop(true, true).fadeOut();
+    }
+    $(App.header.el).toggleClass('expanded', 900).promise().done(function(e) {
+      if($(this).hasClass('expanded')) {
+        
+        $('#history').stop(true, true).fadeIn();
+      } 
+    });
+    // $(App.header.provider_el).toggleClass('collapsed', 1100);
+    
+ 
+    
+  }
+}
+
+
+App.map = {
+  canvas      : '#map_canvas',
+  init        : function() {
+  	//var startLat = geoplugin_latitude();
+  	//var startLong = geoplugin_longitude();
+    
+    
+    
+    //var startLatLng = new google.maps.LatLng(startLat, startLong);
+    var startLatLng = city.latlng;
+    
+    
+    $(this.canvas).gmap({
+        'center' : startLatLng
+      , 'zoom'   : 13 
+    });
+    
+   
+    
+  },
+  
+   facilities  : [
+    // {
+        // name        : "Northeastern ReadyCare"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 5
+      // , distance    : "3.2"
+      // , wait_time   : "20"
+      // , stay_length : "5 mn"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "urgent_care"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : [ 'lab', 'pharmacy']
+      // , latlng      : '40.738378,-73.977165'
+    // },
+//     
+    // {
+        // name        : "John F Lozowski, DO Family Medicine"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 2
+      // , distance    : "1"
+      // , wait_time   : "20"
+      // , stay_length : "15 mn"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "walk_in_clinic"
+      // , providers   : "Board-certified Internal Medicine, Pediatric, Family Medicine and Emergency Medicine Physicians"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Non-emergency medical issue including: Cold and flu symptoms, Bronchitis, Allergies, Poison ivy, Pink eye, Urinary tract infection, Respiratory infection, Sinus problems, and Ear infection."
+      // , telephone   : "800-789-7366"
+      // , services    : ['lab', 'pharmacy']
+      // , latlng      : '40.737078,-73.982065'
+    // },
+//     
+    // {
+        // name        : "Penn Presbyterian"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 4
+      // , distance    : "0.93"
+      // , wait_time   : "20"
+      // , stay_length : "1h"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "urgent_care"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : ['pharmacy']
+      // , latlng      : '40.737178,-73.977565'
+    // },
+//     
+    // {
+        // name        : "Concentra Urgent Care"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 3
+      // , distance    : "0.4"
+      // , wait_time   : "20"
+      // , stay_length : "30 mn"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "retail_clinic"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : [ 'lab', 'pharmacy']
+      // , latlng      : '40.739078,-73.975565'
+    // },
+//     
+    // {
+        // name        : "Take Care Clinics at Walgreens"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 3
+      // , distance    : "0.4"
+      // , wait_time   : "20"
+      // , stay_length : "15 mn"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "retail_clinic"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : ['lab']
+      // , latlng      : '40.756379,-73.984567'
+    // },
+//     
+    // {
+        // name        : "CVS Minute Clinic"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 1
+      // , distance    : "0.4"
+      // , wait_time   : "20"
+      // , stay_length : "1h"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "urgent_care"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : []
+      // , latlng      : '40.748379,-73.985563'
+    // }
+//   
+//   
+  ]
+}
+
+
+App.account = {
+  history : [
+    {
+      date        : '12/10/2012'
+      , facility  : 'Care Bear Hospital'
+      , type      : 'ER'
+      , condition : 'Brain Damage'
+      , avoidable : 'no'
+      , savings   : 500
+    },
+    {
+      date        : '10/09/2012'
+      , facility  : 'M.A.S.H'
+      , type      : 'Walk-in Clinic'
+      , condition : 'Crazy legs'
+      , avoidable : 'yes'
+      , savings   : 30
+    },
+    {
+      date        : '05/08/2012'
+      , facility  : 'Bellevue Hospital'
+      , type      : 'ER'
+      , condition : 'Not-so-serious OCD'
+      , avoidable : 'yes'
+      , savings   : 0
+    }
+  ]
+}
+$(document).ready(function(e) {
+
+
+  
+  
+  App.init();
+  
+ 
+  pageId = $('#page').attr('class')
+  switch(pageId) {
+    
+    case 'facilities_index':
+      
+      // alert if it's null
+      if(urlCity == 'newyork'){
+      	city = newyork;
+      }
+      else if(urlCity =='philadelphia'){
+      	city = philadelphia;
+      }
+      else{
+      	
+      	// The default city is New York
+      }
+      
+      $('#categories li').on('click', function(e) {
+        $(this).siblings('.selected').removeClass('selected');
+        $(this).addClass('selected');
+      });
+      
+      var cat = getURLParameter('category') || 'urgent_care';
+      
+      $('#categories li a.'+cat).parent().addClass('selected');
+      App.map.init();
+      
+      //console.log(geoplugin_city());
+      // Fetch the results for the geolocated city, and on return add them to the map
+	  $.ajax({
+	  	url: '/facilities/locate',
+	  	data:{
+	  		city : city.name
+	  	},
+	  	success:function(data){
+	  		//console.log(data);
+	  		console.log(data);
+	  		App.map.facilities = data
+	  		App.renderResults();
+	  	}
+	  });	      
+    break;  
+      
+      
+      
+      
+    case 'facilities_show':
+      App.map.init();
+      var template_source   = $('#facility-template').html()
+        , template          = Handlebars.compile(template_source);
+
+        var result = template(App.map.facilities[0]);
+        
+        $(result).appendTo($('#facility'));
+    break;
+    
+    case 'home_index':
+      
+      var template_source   = $('#category-template').html()
+        , template          = Handlebars.compile(template_source)
+        
+      $.each(App.categories, function(i) {
+        this.id = i;
+        $('#categories ul').append($(template(this)));
+      });
+      
+      $('#categories li').on({
+        
+        click     : function(e) {
+          e.preventDefault();
+          $('#overlay').show();
+          $('#facility_type_details').html($(this).html())
+          
+        }
+      });
+      
+      $('a.form_toggle').on('click', function(e) {
+        e.preventDefault();
+        $(this).parents('.specific').hide();
+        $($(this).attr('href')).show();
+      });
+      
+      
+      $('#warning').delay(500).animate({
+        bottom        : 30
+      }, {
+        easing   : 'easeOutBounce',
+        duration : 1200
+      });
+      
+      break;
+    
+    default:
+      
+      $('#categories li').on({
+        mouseover : function(e) {
+          $('#description').html($(this).find('p').html())
+        },
+        
+        mouseout : function(e) {
+          $('#description').html()
+        }
+      })
+    
+      $('#categories li').on('click', function(e) {
+        e.preventDefault();
+        $('#user_form_category').val($(this).find('a').attr('class'));
+        $('#user_form').submit();
+      })
+  }
+  
+  
+  
+
+  
+  
+  
+});

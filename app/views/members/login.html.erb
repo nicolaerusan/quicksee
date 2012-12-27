@@ -1,0 +1,80 @@
+  <% if flash[:notice] %>
+      <p class="notice"><%= flash[:notice] %></p>
+    <% end %>
+    <% if flash[:error] %>
+      <p class="error"><%= flash[:error] %></p>
+    <% end %>
+
+    <div id="page" >
+      <h2>Find on-demand care that is time-efficient and cost-effective</h2>
+      <section >
+       
+        <form action="/members/authenticate" method="POST" id="user_form">
+          <h3>Enter Your Member Information</h3>
+          <input type="hidden" name="category" id="user_form_category" value="urgent_care"></input>
+          <fieldset>
+            
+            
+            <input type="text" placeholder="Your zip code" id="user_zip"></input>
+            <input type="text" placeholder="Your social # last 4 digits" id="user_social" name='user_social'></input>
+            
+            <div id="with_member_id" class="specific">
+              
+              <input type="text" placeholder="Your member ID" name='member_id' id='member_id'></input>
+              <a href="#without_member_id" class="form_toggle">I don't have my member ID</a>
+            </div>
+            
+            <div id="without_member_id" class="specific">
+
+              <input type="text" placeholder="Your last name"></input>
+              <input type="text" placeholder="Your Date of Birth (MM/DD/YY)" name="dob"></input>
+
+              <a href="#without_member_id" class="form_toggle">I want to use my member ID instead</a>
+            </div>
+            <input type="submit" value="LOCATE" class="button"></input>
+          </fieldset>
+
+        </form>
+      
+        <div id="type_select">
+          <h5>Click on a facility type for description</h5>
+          <nav id="categories" class="large">
+            <ul>
+
+            </ul>
+          </nav>
+          <a href="./compare.html" id="compare">see our comparison chart</a>
+          <div id="description"></div>
+        </div>
+        
+        <h5 id="warning"><span class="message"><strong>IMPORTANT:</strong> If you have a life, limb or sight threatening medical emergency, dial 911 or visit your closest emergency room</span></h5>
+     </section>
+    </div>
+    <footer>
+ 
+      <nav>
+         <a href="/about">About QuickSeeMD</a>
+         <a href="/about">Plan Info</a>
+         <a href="/about">Contact Us</a>
+         <a href="/about">Signup for our Newsletter</a>
+         <span>&copy; Copyright 2012 QuickseeMD</span>
+         
+      </nav>
+      
+      <div id="powered-by">
+        <span>Powered by</span>
+        <img src="./images/powered-by.png">
+      </div>
+    </footer>
+    
+    <div id="overlay">
+      <div id="overlay_window">
+        <div class="wrap">
+          <a class="close" title="close this window">X</a>
+          
+          <div id="facility_type_details" class="large">
+            
+          </div>
+        </div>
+      </div>
+    </div> <!-- END #overlay -->

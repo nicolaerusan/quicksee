@@ -1,0 +1,70 @@
+<script>
+	// This code dumps all the provider addresses into a json object,
+	// and then iterates through each, pings the geocoder service for each
+	// address to get lang long, saves the coordinates in an object keyed
+	// by the provider id, that we then pass through a jquery 
+	
+	var providers = <%= @provider_addresses.to_json.html_safe %>
+	var providersLength = providers.length;
+	var geocoder = new google.maps.Geocoder();
+	
+	var providerLatlongs = [];
+	var callInterval; 
+	var i = 0;
+
+	function updateSingleLatlongFromAddress(){
+		 if (i>= providers.length){
+		 	window.clearInterval(callInterval);
+		 }
+		 
+		 
+		 var provider = providers[i];
+		 
+		 console.log(provider);
+		 
+		 geocoder.geocode( { 'address': provider.hp_address_line1 + " , " + provider.hp_city_name}, function(results, status) {
+		      if (status == google.maps.GeocoderStatus.OK) {
+		        console.log(results);
+		        console.log(results[0].geometry.location.lat());
+		        console.log(results[0].geometry.location.lng());
+		        $.ajax({
+		        	type: 'POST',
+		        	url:'/facilities/update_latlong',
+		        	data:{
+		        		id: provider.qs_providerID,
+		        		lat: results[0].geometry.location.lat(),
+		        		lng: results[0].geometry.location.lng()
+		        	},
+		        	success:function(data){
+		        		console.log(data);
+		        	}
+		        });
+		      } else {
+		        console.log("Geocode was not successful for the following reason: " + status);
+		      }
+	     });
+	 
+	     
+	     i++;
+	     
+	}
+
+
+	$(document).ready(function(){
+		
+		callInterval = setInterval(updateSingleLatlongFromAddress, 3000);
+
+		
+	});
+	
+	  	  
+
+	  
+	  
+
+</script>
+
+<%= @provider_addresses.count%>
+
+
+Populating Latitude and Longitude coordinates ...

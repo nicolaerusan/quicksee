@@ -1,0 +1,1755 @@
+@font-face {
+    font-family: 'RopaSansRegular';
+    src: asset-url('RopaSans-Regular-webfont.eot', font),
+         asset-url('RopaSans-Regular-webfont.eot?#iefix', font) format('embedded-opentype'),
+         asset-url('RopaSans-Regular-webfont.woff', font) format('woff'),
+         asset-url('RopaSans-Regular-webfont.ttf', font) format('truetype'),
+         asset-url('RopaSans-Regular-webfont.svg#RopaSansRegular', font) format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+$background: #f2f6f8 0%,#d8e1e7 50%,#e0eff9 100%;
+$background: #0076a3 0%,#9de8d4 100%;
+
+@mixin shadowed {
+  -moz-box-shadow:
+    0px 1px 3px rgba(000,000,000,0.5),
+    inset 0px 0px 1px rgba(255,255,255,0.7);
+  -webkit-box-shadow:
+    0px 1px 3px rgba(000,000,000,0.5),
+    inset 0px 0px 1px rgba(255,255,255,0.7);
+  box-shadow:
+    0px 1px 3px rgba(000,000,000,0.5),
+    inset 0px 0px 1px rgba(255,255,255,0.7);
+  text-shadow:
+    0px -1px 0px rgba(000,000,000,0.4),
+    0px 1px 0px rgba(255,255,255,0.3);
+}
+
+
+@mixin radius($r) {
+  border-radius           : $r;
+  -webkit-border-radius   : $r;
+  -moz-border-radius      : $r;
+}
+
+@font-face {
+    font-family: 'RopaSansRegular';
+    src: url('../fonts/RopaSans-Regular-webfont.eot');
+    src: url('../fonts/RopaSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/RopaSans-Regular-webfont.woff') format('woff'),
+         url('../fonts/RopaSans-Regular-webfont.ttf') format('truetype'),
+         url('../fonts/RopaSans-Regular-webfont.svg#RopaSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+* {
+  text-decoration : none;
+  padding         : 0;
+  margin          : 0;
+  outline         : 0;
+  list-style      : none;
+}
+
+body {
+  background  : #FFF image-url('background-body.png') 0 0 repeat;
+  font-family : RopaSansRegular;
+  color       : #595856;
+
+  background: #f2f6f8; /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YyZjZmOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2Q4ZTFlNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMGVmZjkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  $background); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f6f8), color-stop(50%,#d8e1e7), color-stop(100%,#e0eff9)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  $background); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  $background); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  $background); /* IE10+ */
+  background: linear-gradient(to bottom,  $background); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#e0eff9',GradientType=0 ); /* IE6-8 */
+  background  : transparent image-url('background-body.png') 0 0 repeat;
+  background  : #efefed;
+}
+
+body > header {
+  position    : relative;
+  height      : auto;
+  width       : 100%;
+  overflow    : visible !important;
+  z-index     : 1000;
+  margin      : 0 0 30px 0;
+  padding     : 0 0 10px 0;
+  
+  background  : #FFF image-url('background-header-2.png') bottom left repeat-x;
+  
+  
+  &.expanded {
+    height        : 300px;
+  }
+  
+  .wrap {
+    position    : relative;
+    
+    margin      : auto;
+    width       : 980px;
+    @media screen and (max-width: 979px) {
+      width     : auto;
+    }
+  }
+}
+
+
+
+#provider-logo {
+  position      : relative;
+  display       : block;
+  bottom        : 0;
+  left          : 0;
+  top           : 0;
+  width         : 300px;
+  height        : 102px;
+  overflow      : hidden;
+  padding       : 0;
+  text-align    : left;
+  z-index       : 10000;
+  
+  margin        : 0;
+  
+  @media screen and (max-width: 660px) {
+    position    : relative;
+    bottom      : 0;
+  }
+  
+  img {
+    height      : 90px;
+    margin      : 5px 10px;
+  }
+}
+
+
+body > header nav {
+  position    : absolute;
+  top         : 0;
+  right       : 0;
+  background  : #0076a3;
+  padding     : 5px 20px;
+  
+  @include radius(0 0 10px 10px);
+
+
+  ul {
+    position    : relative;
+  }
+  
+  li {
+    display     : inline-block;
+    color       : #f5ba5d;
+  }
+  
+  a {
+    color       : #6DCFF6;
+    font-size   : 12px;
+    display     : block;
+    padding     : 5px;
+    
+    &:hover {
+      
+    }
+  }
+}
+
+
+body > header nav ul li a:hover {
+  color       : #6fd1f5;
+}
+
+body > header nav ul li a.active {
+  padding     : 5px;
+}
+
+body > header #account {
+  position    : absolute;
+  right       : 20px;
+  top         : 20px;
+  padding     : 20px;
+  color       : #efefef;
+  font-size   : 16px;
+  text-align  : right;
+}
+
+#account-info {
+  font-size   : 18px;
+}
+
+
+#account_user_name {
+  
+}
+
+#history {
+  position    : relative;
+  margin      : 10px auto;
+  color       : #666;
+  font-weight : bold;
+  padding     : 20px;
+  font-size   : 12px;
+  width       : 940px;
+  text-align  : left;
+  display     : none;
+  
+  border-spacing:0;
+  border-collapse:collapse;
+}
+
+#history thead th {
+  padding       : 8px;
+  border-bottom : solid 2px #666;
+}
+
+#history thead th a {
+  color         : #666;
+  
+}
+
+#history tr {
+  
+}
+
+
+#history td {
+  padding       : 8px;
+  border-bottom : solid 1px #666;
+}
+
+body > header #account h3 {
+  position      : relative;
+  padding       : 0;
+  background    : #f2f2f2;
+  background    : #448ccb;
+  width         : 266px;
+  margin        : 0 0 0 3px;
+  font-size     : 12px;
+
+}
+
+#account h3 .icon {
+   background   : transparent image-url('sprite.png') -150px -50px no-repeat;
+   width        : 50px;
+   height       : 50px;
+   display      : block;
+   position     : absolute;
+   right        : 0;
+   top          : 0;
+}
+
+body > header #account h3 a {
+
+  color         : #223;
+  
+  font-size     : 20px;
+  
+}
+
+
+body > footer {
+  padding       : 50px 0 50px 0;
+  position      : relative;
+  text-align    : center;
+}
+
+
+body > footer > nav {
+  text-align    : center;
+  font-size     : 14px;
+  color         : #0076A3;
+}
+
+body > footer > nav > a {
+  text-align    : center;
+  color         : #0076A3;
+  font-size     : 14px;
+}
+
+body > footer > nav > a:after {
+  content       : "*";
+  color         : #0076A3;
+  padding       : 0 10px;
+} 
+
+
+.framed {
+  width               : 980px;
+  margin              : auto;
+}
+
+.framed .wrap {
+  position            : relative;
+  background          : #FFF;
+  border              : solid 20px #FFF;
+  box-shadow          : 0px 0px 2px #555;
+  -moz-box-shadow     : 0px 0px 2px #555;
+  -webkit-box-shadow  : 0px 0px 2px #555;
+  -ms-filter          : "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=90, Color='#555555')";
+}
+
+
+#page {
+  position    : relative;
+  width       : 980px;
+  margin      : 0px auto 0 auto;
+  
+}
+
+#warning {
+
+  display         : block;
+  width           : auto;
+  color           : #ffef03;
+  color           : red;
+  text-align      : justify;
+  font-size       : 13px;
+  position        : relative;
+  margin          : 10px 0 0 0;
+  padding         : 0 0 0 0px;
+  background      : none;
+  line-height     : 1.3em;
+  
+
+  
+}
+
+#search-form {
+  position                : relative;
+ 
+  z-index                 : 9999;
+  text-align              : left;
+  padding                 : 5px;
+  background              : #fafafa;
+  width                   : 210px;
+  margin                  : 0 0 10px 0;
+  
+  @include radius(5px);
+  @include shadowed;
+}
+
+#search-input {
+  
+  border              : none;
+  color               : #333 !important;
+  width               : 170px;
+  background          : #FFF;
+}
+
+#search-submit {
+  position            : absolute;
+  right               : 2px;
+  top                 : 5px;
+  width               : 30px;
+  height              : 30px;
+  border              : none;
+  background          : transparent image-url('sprite.png') 0 -50px no-repeat;
+  text-indent         : -10000px;
+  cursor              : pointer;
+  
+  &:hover {
+    
+  }
+}
+
+
+
+
+#map .wrap {
+  position            : relative;
+  padding             : 0 0 0 0;
+  clear               : both;
+}
+
+
+#map_canvas {
+  height              : 400px;
+  border              : solid 1px #ccc;
+  
+  
+}
+
+#page > header {
+  background  : #FFF;
+  height      : 10px;
+  padding     : 10px 25px;
+  
+}
+
+
+
+#page .body {
+  position    : relative;
+  padding     : 0 25px;
+  background  : transparent image-url('background-page.png') 0 0 repeat
+}
+
+#page > footer {
+  position    : relative;
+  background  : transparent image-url('background-page-footer.png') 0 -10px repeat;
+  height      : 40px;
+}
+
+
+footer {
+  
+}
+
+a {
+  color       : #334657;
+  font-size   : 14px;
+}
+
+#results {
+  position    : relative;
+  clear       : both;
+  margin      : 30px 0;
+  
+}
+
+#results dl {
+  display     : none;
+  padding     : 20px 0 0 0;
+}
+
+#results dt {
+  color       : #999;
+  padding     : 10px 0 2px 0;
+  font-size   : 12px;
+}
+
+#results .expanded dl {
+  display     : block;
+  
+}
+
+
+#results .meta {
+  width       : 320px;
+}
+
+#results .name {
+  font-size   : 18px;
+  display     : block;
+}
+
+#results .service {
+  width       : 20px;
+  height      : 20px;
+  background  : transparent image-url('sprite.png') -5px -100px no-repeat;
+  display     : inline-block;
+  text-indent : -100000px;
+}
+
+#results .service.pharmacy {
+  background  : transparent image-url('sprite.png') -40px -100px no-repeat;
+}
+
+table#facilities {
+  width      : 100%;
+  border-spacing:0;
+  border-collapse:collapse;
+  margin      : 0;
+}
+
+table#facilities th {
+  padding     : 10px;
+  text-align  : center;
+  background  : #fff;
+}
+
+table#facilities th a {
+  font-size   : 14px; 
+  font-weight  : bold;
+}
+
+table#facilities th.selected a:after {
+  content     : "";
+  background  : transparent url('../images/sprite.png') 0 -198px no-repeat;
+  width       : 20px;
+  height      : 10px;
+  display     : inline-block;
+  margin      : 0 0 0 5px;
+
+}
+
+table#facilities.reversed th.selected a:after {
+  background  : transparent url('../images/sprite.png') 0 -223px no-repeat;
+}
+
+table#facilities tbody tr {
+  height      : 60px;
+  overflow    : hidden;
+  
+}
+
+table#facilities tbody tr:hover td {
+/*  background  : #eef9fd;*/
+}
+
+a:hover {
+  text-decoration : underline;
+}
+
+table#facilities tr {
+  
+/*  border-bottom : solid 5px #fafafa;*/
+  border-bottom   : dotted 2px #B8D4E1;
+}
+
+#facilities td.meta {
+  padding     : 20px;
+  text-align  : left;
+}
+
+table#facilities td {
+  font-size   : 16px;
+  padding     : 10px;
+  height      : 60px;
+  overflow    : hidden;
+  
+ text-align  : center;
+  
+}
+
+table#facilities .odd-col {
+  background  : #F2F6F8;
+  
+}
+
+table#facilities .even {
+  background  : #FFF;
+  
+}
+
+table#facilities .odd {
+  background  : #FFF;
+    
+}
+
+table#facilities .rating {
+  padding     : 0;
+  width       : 50px;
+  height      : 50px;
+}
+
+table#facilities .rating span {
+  background  : transparent image-url('sprite.png') 2px 0 no-repeat;
+  display     : block;
+  width       : 50px;
+  height      : 50px;
+  line-height : 50px;
+  font-size   : 18px;
+  text-align  : center;
+  color       : #b32816;
+  margin      : auto;
+  
+}
+
+
+.star-2 .rating span, .star-3 .rating span {
+  background  : transparent image-url('sprite.png') -48px 0px no-repeat !important;
+  color       : #e7ba33 !important;
+}
+
+.star-4 .rating span, .star-5 .rating span {
+  background  : transparent image-url('sprite.png') -98px 0px no-repeat !important;
+  color       : #71ac1e !important;
+}
+
+
+table#facilities .address {
+  font-size   : 11px;
+  padding     : 5px 0;
+}
+
+
+table#facilities .expanded  {
+  height      : 150px;
+}
+
+table#facilities .expanded .address {
+  
+}
+
+
+
+form {
+  font-size   : 20px;
+  padding     : 20px 0 0 0;
+  text-align  : right;
+}
+
+form input {
+  padding     : 7px;
+  border-radius           : 3px;
+  -webkit-border-radius   : 3px;
+  -moz-border-radius      : 3px;
+   
+}
+
+form input[type="text"] {
+  width      : 300px;
+}
+
+
+#deductible-stat {
+  padding     : 10px 0 0 0;
+  display     : block;
+  color       : #369;
+  width       : auto;
+}
+
+#deductible-stat small {
+  display     : block;
+  font-size   : 12px;
+}
+
+#deductible-stat .value {
+  font-weight : bold;
+  color       : #FFF;
+  position    : relative;
+  float       : right;
+  font-size   : 30px;
+  background  : #0076A3;
+  padding     : 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin      : -5px 0 0 10px;
+  
+}
+
+.button {
+  
+  font-size             : 14px;
+  color                 : #ffffff;
+  padding               : 10px 19px;
+    
+  -moz-border-radius    : 5px;
+  -webkit-border-radius : 5px;
+  border-radius         : 5px;
+  border                : 1px solid #ffffff;
+  
+  @include shadowed;
+    
+  cursor                : pointer;
+  
+  
+  background: -moz-linear-gradient(
+    top,
+    #FFF 0%,
+    #EEE);
+
+  background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#ffffff),
+    to(#eee));
+  background: -moz-linear-gradient(
+    top,
+    #1c8de3 0%,
+    #21b4e0);
+  background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#1c8de3),
+    to(#21b4e0));
+
+  &:hover {
+    background : #1c8de3 !important;
+    
+  }
+}
+
+#powered-by {
+  position : relative;
+  margin   : auto;
+  width     : 200px;
+  padding  : 20px;
+}
+
+#powered-by span, #powered-by img {
+  display : inline-block;
+  position: relative;
+  float   : left;
+}
+#powered-by span {
+  padding : 5px 10px 5px 0;
+}
+
+section {
+  position            : relative;
+  overflow            : hidden;
+  clear               : both;
+  margin              : 0 0 40px 0;
+}
+
+
+section#results {
+
+  background          : #daecf5;
+  background          : #FFF;
+  border              : solid 20px #FFF;
+  padding             : 10px;
+  background          : #fafafa;
+  
+  border-radius           : 10px;
+  -webkit-border-radius   : 10px;
+  -moz-border-radius      : 10px;
+  margin              : 0 0 0 0;
+  box-shadow          : 0px 0px 2px #555;
+  -moz-box-shadow     : 0px 0px 2px #555;
+  -webkit-box-shadow  : 0px 0px 2px #555;
+  -ms-filter          : "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=90, Color='#555555')";
+  
+}
+
+aside {
+  position    : relative;
+  margin      : 0 0 0 758px;
+  width       : 220px;
+  
+  
+}
+#categories {
+  position    : relative;
+  z-index     : 99999;
+  text-align  : left;
+  p {
+    display   : none;
+  }
+}
+
+#page nav ul {
+  
+}
+
+#page nav ul li {
+  position                : relative;
+  display                 : block;
+  padding                 : 10px 5px;
+  margin                  : 0 0 5px 0;
+  background              : #FAFAFA;
+  
+  @include radius(5px);
+  @include shadowed;
+  
+  &:hover {
+    background   : #b8d4e1; 
+  }
+  
+  &.selected {
+    background   : #FFF; 
+  }
+  
+  input {
+    position            : absolute;
+    right               : 10px;
+    top                 : 13px;
+  }
+}
+
+
+#facilities_index {
+  #map {
+    position            : relative;
+    float               : left;
+    width               : 700px;
+    padding             : 10px;
+    margin              : 0 0 0 0px;
+    z-index             : 999;
+    background: -moz-linear-gradient(
+      top,
+      #B8D4E1 0%,
+      #6FD1F5);
+    background: -webkit-gradient(
+      linear, left top, left bottom, 
+      from(#B8D4E1),
+      to(#6FD1F5));
+      
+    border                : 0 solid #ffffff;
+    
+    @include radius(5px);
+    @include shadowed;
+  }
+}
+
+
+#facilities_index #page nav ul li a {
+  display     : block;
+  padding     : 0 0 0 5px;
+  text-align  : left;
+  
+  
+  .icon {
+    position    : absolute;
+    right        : 2px;
+    top         : 2px;
+    width       : 50px;
+    height      : 40px;
+    margin      : auto;
+    
+    
+  }
+  
+  .name {
+    display     : inline-block;
+    line-height : 20px;
+    padding     : 0 0 0 0px;
+  }
+  
+  
+  &.urgent_care .icon {
+    background-position : -150px -500px ;
+  }
+
+  &.telemedicine .icon {
+    background-position :   0 -500px;
+  }
+
+  &.walk_in_clinic .icon {
+    background-position :   -200px -500px;
+  }
+
+  &.retail_clinic .icon {
+    background-position :   -100px -500px;
+  }
+
+  &.urgent_dental .icon {
+    background-position :   -50px -500px;
+  }
+
+  &.pharmacy_24h .icon {
+    background-position :   -250px -500px;
+  }
+  
+
+}
+
+
+.urgent_care .icon {
+  background-position: -75px -550px; }
+
+.telemedicine .icon {
+  background-position: 0 -550px; }
+
+.walk_in_clinic .icon {
+  background-position: -100px -550px; }
+
+.retail_clinic .icon {
+  background-position: -50px -550px; }
+
+.urgent_dental .icon {
+  background-position: -25px -550px; }
+
+.pharmacy_24h .icon {
+  background-position: -125px -550px; }
+
+.medium .icon {
+  width: 50px;
+  height: 40px;
+  margin: auto; }
+.medium .name {
+  display: inline-block;
+  line-height: 20px;
+  padding: 0 0 0 0px; }
+.medium .urgent_care .icon {
+  background-position: -150px -500px !important; }
+.medium .telemedicine .icon {
+  background-position: 0 -500px !important; }
+.medium .walk_in_clinic .icon {
+  background-position: -200px -500px !important; }
+.medium .retail_clinic .icon {
+  background-position: -100px -500px !important; }
+.medium .urgent_dental .icon {
+  background-position: -50px -500px !important; }
+.medium .pharmacy_24h .icon {
+  background-position: -250px -500px !important; }
+
+.large .icon {
+  width: 100px;
+  height: 90px;
+  margin: auto; }
+.large .urgent_care .icon {
+  background-position: -300px -400px !important; }
+.large .telemedicine .icon {
+  background-position: 0 -400px !important; }
+.large .walk_in_clinic .icon {
+  background-position: -400px -400px !important; }
+.large .retail_clinic .icon {
+  background-position: -200px -400px !important; }
+.large .urgent_dental .icon {
+  background-position: -100px -400px !important; }
+.large .pharmacy_24h .icon {
+  background-position: -500px -400px !important; }
+
+
+
+.type {
+  display     : inline-block;
+  
+  .icon {
+    display     : inline-block;
+    height      : 25px;
+    width       : 25px;
+    background  : transparent image-url('sprite.png')  00px -550px no-repeat;
+  }
+  
+  &.urgent_care .icon {
+    background-position : -75px -550px ;
+  }
+
+  &.telemedicine .icon {
+    background-position :   0 -550px ;
+  }
+
+  &.walk_in_clinic .icon {
+    background-position :   -100px -550px;
+  }
+
+  &.retail_clinic .icon {
+    background-position :   -50px -550px;
+  }
+
+  &.urgent_dental .icon {
+    background-position :   -25px -550px;
+  }
+
+  &.pharmacy_24h .icon {
+    background-position :   -125px -550px;
+  }
+}
+
+
+
+
+#facilities_show {
+
+  section {
+    overflow            : visible;
+    margin              : 50px 0 0 0;
+    width               : 920px;      
+    background          : #FFF;
+    border              : solid 20px #FFF;
+    padding             : 10px;
+    background          : #fafafa;
+    box-shadow          : 0px 0px 2px #555;
+    -moz-box-shadow     : 0px 0px 2px #555;
+    -webkit-box-shadow  : 0px 0px 2px #555;
+    -ms-filter          : "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=90, Color='#555555')";
+  }
+  
+
+}
+
+#facility  {
+  position      : relative;
+  width         : 500px;
+  
+}
+
+#facility table {
+  width         : 510px;
+  margin        : 20px 0 20px 0;
+}
+
+
+#facility table td {
+  
+  background    : #b8d4e1;
+
+  margin        : 0 0 1px 0;
+
+  padding       : 10px;
+  
+}
+
+#facility table td.key {
+  
+  width         : 160px;
+  background    : #6FD1F5;
+  margin        : 0;
+}
+
+
+
+#facility table td.value {
+  background    : none;
+  background    : #b8d4e1;
+  margin        : 0;
+  color         : #FFF;
+}
+
+
+#facility .rating {
+  position      : relative;
+  float         : left;
+  right         : 0;
+  top           : 0;
+  display       : block;
+  width         : 100px;
+  height        : 100px;
+  background    : transparent image-url('sprite.png')  -300px 0 no-repeat;
+  font-size     : 50px;
+  line-height   : 100px;
+  font-weight   : bold;
+  color         : #3cb878;
+  text-align    : center;
+  margin        : 0 10px 0 0;
+  position      : absolute;
+  right         : -500px;
+  top           : -70px;
+  z-index       : 9999;
+}
+
+#facility h2 {
+  padding       : 10px 0 0 0;
+}
+
+#facility .type {
+  display       : block;
+  width         : 100px;
+  height        : 100px;
+  position      : relative;
+  float         : left;
+  z-index       : 888;
+  text-align    : center;
+  margin        : 0 10px 0 0;
+  text-indent   : -10000px;
+}
+
+#facility .urgent_care {
+  background : transparent image-url('sprite.png')  -300px -300px no-repeat;
+}
+
+#facility .telemedicine {
+  background : transparent image-url('sprite.png')  0 -300px no-repeat;
+}
+
+#facility .walk_in_clinic {
+  background : transparent image-url('sprite.png')  -400px -300px no-repeat;
+}
+
+#facility .retail_clinic {
+  background : transparent image-url('sprite.png')  -200px -300px no-repeat;
+}
+
+#facility .urgent_dental {
+  background : transparent image-url('sprite.png')  -100px -300px no-repeat;
+}
+
+#facility .pharmacy_24h {
+  background : transparent image-url('sprite.png')  -500px -300px no-repeat;
+}
+
+
+  
+@media screen and (max-width: 660px) {
+
+  body > header nav ul {
+    text-align    : center;
+  }
+}
+
+section {
+  background      : none;
+  padding         : 0;
+  border          : none;
+  box-shadow      : none;
+  margin          : 30px 0 0 0;
+  padding         : 30px 0 70px 0;
+  border-top      : dashed 2px #ccc;
+  border-bottom   : dashed 2px #ccc;
+  border          : dashed 2px #ccc;
+  position        : relative;
+  overflow        : hidden;
+  background      : #eDeDeD;
+}
+
+#user_form {
+  position        : relative;
+  float           : left;
+  margin          : 0 20px 0 50px;
+  padding         : 0;
+  border          : none;
+  width           : 477px;
+  text-align      : left;
+  
+}
+
+
+#user_form fieldset {
+  position        : relative;
+  padding         : 50px;
+  width           : 377px;
+  height          : 158px;
+  background      : transparent image-url('home-form-bg.png') 0 0 no-repeat;
+  border          : none;
+}
+
+
+#user_form fieldset input {
+  border          : none;
+  background      : #FFF;
+  padding         : 10px;
+  width           : 377px;
+  margin          : 0 0 5px 0;
+}
+
+#user_form fieldset #user_zip {
+  width           : 221px;
+}
+
+#user_form fieldset #user_social {
+  width           : 150px;
+}
+
+#user_form #user_dob {
+  text-align      : left;
+}
+
+#user_form #user_dob label {
+  font-size       : 12px;
+  color           : #999;
+  width           : 120px;
+}
+
+
+#user_form a.form_toggle {
+  padding         : 10px 0;
+  display         : block;
+  font-size       : 12px;
+  text-align      : right;
+  color           : #0076A3;
+}
+
+
+
+#user_form fieldset input[type="submit"] {
+  
+  position        : absolute;
+  bottom          : 50px;
+  
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  
+  background: -moz-linear-gradient(
+    top,
+    #1c8de3 0%,
+    #21b4e0);
+  background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#1c8de3),
+    to(#21b4e0));
+}
+
+
+
+#type_select {
+  position        : relative;
+  float           : left;
+  width           : 400px;
+  margin          : 0 auto;
+  
+}
+
+
+#categories {
+  width           : 100%;
+  margin          : 0 0 0 15px;
+  
+}
+
+#categories li {
+  display         : inline-block !important;
+  width           : 100px;
+  height          : 100px;
+  overflow        : hidden;
+  margin          : 0 10px 10px 0px;
+  line-height     : 100px;
+/*  background      : transparent image-url('category-button.png') 0 0 no-repeat;*/
+  cursor          : pointer;
+  border-radius           : 10px 10px 10px 10px !important;
+  -webkit-border-radius   : 10px 10px 10px 10px !important;
+  -moz-border-radius      : 10px 10px 10px 10px !important;
+  
+  background: -moz-linear-gradient(
+    top,
+    #1c8de3 0%,
+    #1c8de3);
+
+  background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#ffffff),
+    to(#eee));
+  
+}
+
+#categories li:hover {
+    
+  background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#83c7ea),
+    to(#cbdfe9));
+  
+}
+
+#categories li a {
+  display           : block;
+  text-align        : center;
+}
+
+#categories li .icon {
+  display           : block;
+  width             : 100px;
+  background        : transparent image-url('sprite.png')  -300px -400px no-repeat;
+  margin            : 0 0 0 0;
+  height            : 72px !important;
+  text-indent       : -10000px;
+}
+
+
+#categories li .name {
+  line-height       : 30px;
+  color             : #369;
+
+}
+
+#categories li a:hover {
+  text-decoration   : none;
+  color     : #FFF;
+}
+
+#categories li p {
+  display         : none;
+}
+
+h2 {
+  font-size       : 28px;
+  text-align      : center;
+
+  
+}
+
+h3 {
+  color           : #999;
+  text-align      : center;
+  padding         : 10px;
+  font-size       : 20px;
+  
+}
+
+h5 {
+  color           : #999;
+  text-align      : center;
+  padding         : 15px;
+}
+
+#warning {
+  clear           : both;
+  display         : block;
+  width           : 430px;
+  color           : #ffef03;
+  color           : red;
+  text-align      : left;
+  font-size       : 14px;
+  position        : absolute;
+  margin          : 10px 0 0 70px;
+  padding         : 0 0 0 0px;
+  height          : 50px;
+  background      : none;
+  bottom          : -50px;
+  text-align      : center;
+  
+}
+
+#warning .icon {
+  display         : absolute;
+  height          : 66px;
+  width           : 80px;
+  background      : transparent image-url('warning-icon.png') 0 0 no-repeat;
+}
+
+#warning .message {
+  display         : inline-block;
+  width           : auto;
+}
+
+#compare {
+  position        : absolute;
+  margin          : 10px 0;
+/*  color           : #999;*/
+  font-size       : 14px;
+  font-weight     : bold;
+  text-align      : center;
+  width           : 100%;
+}
+
+#description {
+    position        : absolute;
+    margin          : 10px 0;
+    padding         : 40px;
+    background      : #fafafa;
+    top             : -20px;
+  /*  color           : #999;*/
+    font-size       : 14px;
+    text-align      : center;
+    width           : 320px;        
+    z-index         : 99999;
+    display         : none;
+}
+
+ 
+#without_member_id {
+  display         : none;
+}
+
+
+
+#overlay_window {
+  width       : 440px;
+  height      : 260px;
+  margin      : -130px 0 0 -220px;
+}
+
+#overlay_window .wrap {
+  height      : 200px;
+  padding     : 20px 0 0 0;
+}
+
+#overlay_window .icon {
+  position    : absolute;
+  width       : 100px;
+  height      : 100px;
+  padding     : 0 0 0 0px;
+}
+
+#facility_type_details p, #facility_type_details .name {
+  padding     : 0 20px 0 100px;
+}
+
+#facility_type_details a {
+ font-size        : 20px;
+ text-decoration  : none;
+}
+
+<!-- 
+
+var App = {
+  init : function() {
+    App.header.init();
+    //App.renderHistory();
+    this.render();
+    
+    
+    $('.facility ').on('click', function(e) {
+      e.preventDefault();
+      
+      // $('#facilities .expanded').toggleClass('expanded', 400);
+      // $(this).parents('tr').toggleClass('expanded', 400).promise().done(function(e) {
+      //   $(this).find('dl').fadeIn();
+      // });
+      
+      $('#facilities .expanded').toggleClass('expanded');
+      $(this).toggleClass('expanded');
+      
+    });
+    
+    
+  },
+  
+  render : function() {
+    
+  },
+  
+  renderResults : function() {
+    var template_source   = $('#facility-template').html()
+      , template          = Handlebars.compile(template_source);
+      
+      var image = new google.maps.MarkerImage("<%= asset_path('marker.png') %>",
+        // This marker is 20 pixels wide by 32 pixels tall.
+        new google.maps.Size(20, 20),
+        // The origin for this image is 0,0.
+        new google.maps.Point(0,0),
+        // The anchor for this image is the base of the flagpole at 0,32.
+        new google.maps.Point(0, 20));
+    
+    
+    
+	$.each(App.map.facilities, function(i) {
+     
+		var result = template(this);
+		this.address = this.hp_address_line1 + " " + this.hp_address_line2;
+		var content = "<h4 style='padding:0 20px 10px 0'>" + this.name + "</h4><small>"+this.address+"</small><br/><small>Phone : "+this.hp_telephone_number+"</small><br/><small>"+this.hours+"</small>";
+		$(result).appendTo($('#facilities tbody'));
+      
+        
+      	if(this.qs_latitude){
+      		var latLongTemp = this.qs_longitude + "," + this.qs_latitude;
+      		console.log(latLongTemp); 
+      		
+      		$('#map_canvas').gmap(
+      			'addMarker', 
+      			{
+      				position: latLongTemp,   
+      				icon:image
+      			}
+      		).click(
+      			function() {
+      				$('#map_canvas').gmap('openInfoWindow', {'content': content}, this);
+      			}
+	      	);
+		}      		
+	});
+  },
+  
+  renderHistory  : function() {
+    var template_source   = $('#visit-template').html()
+      , template          = Handlebars.compile(template_source);
+      
+      
+    
+    $('#history tbody').empty();
+    
+    $.each(App.account.history, function(i) {
+      this.cycle = i%2 ? "odd" : "even";
+      var result = template(this);
+      
+      $(result).appendTo($('#history tbody'))
+    });
+  }
+}
+
+
+App.header = {
+  el          : 'body > header',
+  provider_el : '#provider-logo',
+  nav_el      : '#main-nav',
+  
+  init        : function() {
+    $('#account').on('click', this.toggle);
+    
+    $(this.nav_el).find('a').on('click', function(e) {
+      e.stopPropagation();
+      $(App.header.nav_el).find('a.active').removeClass('active');
+      $(this).addClass('active');
+    })
+    
+  },
+  toggle      : function(e, data) {
+    e.preventDefault();
+    
+    if($(App.header.el).hasClass('expanded')) {
+      $('#history').stop(true, true).fadeOut();
+    }
+    $(App.header.el).toggleClass('expanded', 900).promise().done(function(e) {
+      if($(this).hasClass('expanded')) {
+        
+        $('#history').stop(true, true).fadeIn();
+      } 
+    });
+    // $(App.header.provider_el).toggleClass('collapsed', 1100);
+    
+ 
+    
+  }
+}
+
+
+App.map = {
+  canvas      : '#map_canvas',
+  init        : function() {
+  	//var startLat = geoplugin_latitude();
+  	//var startLong = geoplugin_longitude();
+    //var startLatLng = new google.maps.LatLng(startLat, startLong);
+    
+    
+    
+    $(this.canvas).gmap({
+        'center' : startLatLng
+      , 'zoom'   : 13 
+    });
+    
+   
+    
+  },
+  
+   facilities  : [
+    // {
+        // name        : "Northeastern ReadyCare"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 5
+      // , distance    : "3.2"
+      // , wait_time   : "20"
+      // , stay_length : "5 mn"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "urgent_care"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : [ 'lab', 'pharmacy']
+      // , latlng      : '40.738378,-73.977165'
+    // },
+//     
+    // {
+        // name        : "John F Lozowski, DO Family Medicine"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 2
+      // , distance    : "1"
+      // , wait_time   : "20"
+      // , stay_length : "15 mn"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "walk_in_clinic"
+      // , providers   : "Board-certified Internal Medicine, Pediatric, Family Medicine and Emergency Medicine Physicians"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Non-emergency medical issue including: Cold and flu symptoms, Bronchitis, Allergies, Poison ivy, Pink eye, Urinary tract infection, Respiratory infection, Sinus problems, and Ear infection."
+      // , telephone   : "800-789-7366"
+      // , services    : ['lab', 'pharmacy']
+      // , latlng      : '40.737078,-73.982065'
+    // },
+//     
+    // {
+        // name        : "Penn Presbyterian"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 4
+      // , distance    : "0.93"
+      // , wait_time   : "20"
+      // , stay_length : "1h"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "urgent_care"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : ['pharmacy']
+      // , latlng      : '40.737178,-73.977565'
+    // },
+//     
+    // {
+        // name        : "Concentra Urgent Care"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 3
+      // , distance    : "0.4"
+      // , wait_time   : "20"
+      // , stay_length : "30 mn"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "retail_clinic"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : [ 'lab', 'pharmacy']
+      // , latlng      : '40.739078,-73.975565'
+    // },
+//     
+    // {
+        // name        : "Take Care Clinics at Walgreens"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 3
+      // , distance    : "0.4"
+      // , wait_time   : "20"
+      // , stay_length : "15 mn"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "retail_clinic"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : ['lab']
+      // , latlng      : '40.756379,-73.984567'
+    // },
+//     
+    // {
+        // name        : "CVS Minute Clinic"
+      // , address     : "2301 E Allegheny Ave, Suite 150"
+      // , rating      : 1
+      // , distance    : "0.4"
+      // , wait_time   : "20"
+      // , stay_length : "1h"
+      // , co_pay      : "50"
+      // , savings     : "40"
+      // , type        : "urgent_care"
+      // , providers   : "Physicians, Nurse Practitioners and Physician Assistants"
+      // , hours       : "Open 24hrs a day 365 days a year"
+      // , description    : "Accepting patients of all ages"
+      // , telephone   : "800-789-7366"
+      // , services    : []
+      // , latlng      : '40.748379,-73.985563'
+    // }
+//   
+//   
+  ]
+}
+
+
+App.account = {
+  history : [
+    {
+      date        : '12/10/2012'
+      , facility  : 'Care Bear Hospital'
+      , type      : 'ER'
+      , condition : 'Brain Damage'
+      , avoidable : 'no'
+      , savings   : 500
+    },
+    {
+      date        : '10/09/2012'
+      , facility  : 'M.A.S.H'
+      , type      : 'Walk-in Clinic'
+      , condition : 'Crazy legs'
+      , avoidable : 'yes'
+      , savings   : 30
+    },
+    {
+      date        : '05/08/2012'
+      , facility  : 'Bellevue Hospital'
+      , type      : 'ER'
+      , condition : 'Not-so-serious OCD'
+      , avoidable : 'yes'
+      , savings   : 0
+    }
+  ]
+}
+$(document).ready(function(e) {
+		alert('here');
+
+  function getURLParameter(name) {
+      return decodeURI(
+          (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+      );
+  }
+  
+  
+  App.init();
+  
+ 
+  pageId = $('#page').attr('class')
+  switch(pageId) {
+    
+    case 'facilities_index':
+      // lookup the city 
+      var city = getURLParameter('city');
+      
+      // alert if it's null
+      if(city == null){
+      	alert('You need to specify a city for this page to work in the URL');	
+      }
+      else{
+      	alert(city);
+      }
+      
+      
+      $('#categories li').on('click', function(e) {
+        $(this).siblings('.selected').removeClass('selected');
+        $(this).addClass('selected');
+      });
+      
+      var cat = getURLParameter('category') || 'urgent_care';
+      
+      $('#categories li a.'+cat).parent().addClass('selected');
+      alert();
+      App.map.init();
+      
+      //console.log(geoplugin_city());
+      // Fetch the results for the geolocated city, and on return add them to the map
+	  $.ajax({
+	  	url: '/facilities/locate',
+	  	data:{
+	  		city : 'Brooklyn'
+	  	},
+	  	success:function(data){
+	  		//console.log(data);
+	  		console.log(data);
+	  		App.map.facilities = data
+	  		App.renderResults();
+	  	}
+	  });	      
+    break;  
+      
+      
+      
+      
+    case 'facilities_show':
+      App.map.init();
+      var template_source   = $('#facility-template').html()
+        , template          = Handlebars.compile(template_source);
+
+        var result = template(App.map.facilities[0]);
+        
+        $(result).appendTo($('#facility'));
+    break;
+    
+    case 'home_index':
+      
+      var template_source   = $('#category-template').html()
+        , template          = Handlebars.compile(template_source)
+        
+      $.each(App.categories, function(i) {
+        this.id = i;
+        $('#categories ul').append($(template(this)));
+      });
+      
+      $('#categories li').on({
+
+        
+        click     : function(e) {
+          e.preventDefault();
+          $('#overlay').show();
+          $('#facility_type_details').html($(this).html())
+          
+        }
+      });
+      
+      $('a.form_toggle').on('click', function(e) {
+        e.preventDefault();
+        $(this).parents('.specific').hide();
+        $($(this).attr('href')).show();
+      });
+      
+      
+      $('#warning').delay(500).animate({
+        bottom        : 30
+      }, {
+        easing   : 'easeOutBounce',
+        duration : 1200
+      });
+      
+      break;
+    
+    default:
+      
+      $('#categories li').on({
+        mouseover : function(e) {
+          $('#description').html($(this).find('p').html())
+        },
+        
+        mouseout : function(e) {
+          $('#description').html()
+        }
+      })
+    
+      $('#categories li').on('click', function(e) {
+        e.preventDefault();
+        $('#user_form_category').val($(this).find('a').attr('class'));
+        $('#user_form').submit();
+      })
+  }
+  
+  
+  
+
+  
+  
+  
+}); -->

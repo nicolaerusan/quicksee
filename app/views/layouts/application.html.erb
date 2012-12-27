@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quicksee</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "jquery-ui-map" %>
+  
+  <%= javascript_tag do %>
+
+  	//App.map.city = '<%= params[:city] %>'
+  
+  <% end %>
+  
+  <%= csrf_meta_tags %>
+
+  <script type="text/x-handlebars-template" id="facility-template">
+
+      <tr class="facility {{cycle}} star-{{rating}} {{type}}">
+        <td class="rating"><span>{{rating}}</span></td>
+        <td class="meta odd-col" >
+          <h4>
+            <a href="./facility.html" class="name">{{name}}</a>
+          </h4>
+          <p class="address">{{address}}</p>
+          <p class="telephone">{{telephone}}</p>
+          {{#each services}}
+            <span class="service {{this}}" title="{{this}}">{{this}}</span>
+          {{/each}}
+          <dl class="extras">
+            <dt>Hours of Operation</dt>
+            <dd>{{hours}}</dd>
+            <dt>Type of Care provided</dt>
+            <dd>{{providers}}</dd>
+            <dt>Services Provided</dt>
+            <dd>{{description}}</dd>
+          </dl>
+        </td>
+        
+        <td class="distance">{{distance}} Miles</td>
+        <td class="wait-time  odd-col">{{wait_time}}min</td>
+        <td class="stay-length">{{stay_length}}</td>
+        <td class="co-pay  odd-col">${{co_pay}}</td>
+        <td class="savings">${{savings}}</td>
+        
+        <td class="action  " style="padding:20px">
+          <a class="button">HOLD!</a>
+        </td>
+      </tr>
+    </script>
+    
+    <script type="text/x-handlebars-template" id="visit-template">
+
+      <tr class="visit {{cycle}} {{type}}">
+        <td class="date">{{date}}</td>
+        <td class="facility">{{facility}}
+        </td>
+        <td class="type"><span>{{type}}</span></td>
+        <td class="condition">{{condition}}</td>
+        <td class="avoidable">{{avoidable}}</td>
+        <td class="savings">{{savings}}</td>
+      </tr>
+    </script>
+    
+    <script type="text/x-handlebars-template" id="category-template">
+      <li class="button">
+        <a href="./category.html?id={{id}}" class="{{html_class}} type"><span class="icon">&nbsp;</span><span class="name">{{name}}</span></a>
+        <p>{{description}}</p>
+      </li>
+    </script>
+    
+	
+	
+
+</head>
+<body id='home_index'>
+
+<header> 
+      
+      <div class="wrap">
+        <a id="provider-logo" href="/">
+          <h1><%= image_tag 'capital-blue.png', :size => "116 x 65"%></h1>
+        </a>
+        
+        <nav id="main-nav">
+          
+          <ul>
+            <li><a href="/application/rewards">Rewards</a></li>
+            <li><a href="/application/about">About</a></li>
+            <li><a href="/facilities/map" >Find a facility</a></li>
+            <li><a href="/application/newsletter">Newsletter</a></li>
+            <li><a href="./plan.html">Plan Info</a></li>
+            <li><a href="./contact.html">Contact Us</a></li>
+          </ul>
+        </nav>
+        
+        <table id="history" >
+          <thead>
+            <tr>
+              <th><a href="#TODO">Date</a></th>
+              <th><a href="#TODO">Facility</a></th>
+              <th><a href="#TODO">Type</a></th>
+              <th><a href="#TODO">Medical Condition</a></th>
+              <th><a href="#TODO">Avoidable?</a></th>
+              <th><a href="#TODO">Potential Savings</a></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        
+      </div>
+
+</header>
+
+<%= yield %>
+
+<footer>
+   <nav>
+     <a href="/about">About QuickSeeMD</a>
+     <a href="/about">Plan Info</a>
+     <a href="/about">Contact Us</a>
+     <a href="/about">Signup for our Newsletter</a>
+     <span>&copy; Copyright 2012 QuickseeMD</span>
+     
+  </nav>
+  
+  <div id="powered-by">
+    <span>Powered by</span>
+    <%= image_tag('powered-by.png') %>
+  </div>
+</footer>
+
+ 
+<div id="overlay">
+  <div id="overlay_window">
+    <div class="wrap">
+      <a class="close" title="close this window">X</a>
+      
+      <div id="facility_type_details" class="large">
+        
+      </div>
+    </div>
+  </div>
+</div> <!-- END #overlay -->
+</body>
+</html>
