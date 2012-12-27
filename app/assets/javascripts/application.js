@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.min.js
+//= require jquery-ui-map.js
 //= require handlebars.js
 //= require modernizr.js
 //= require app.js
-//= require jquery-ui-map.js
 
