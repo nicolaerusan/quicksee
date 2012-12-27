@@ -16,4 +16,5 @@
 //= require handlebars.js
 //= require modernizr.js
 //= require app.js
+//= require jquery-ui-map.js
 
