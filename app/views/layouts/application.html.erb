@@ -15,39 +15,66 @@
   
   <%= csrf_meta_tags %>
 
-  <script type="text/x-handlebars-template" id="facility-template">
+<script type="text/x-handlebars-template" id="facility-template">
 
-      <tr class="facility {{cycle}} star-{{rating}} {{type}}">
-        <td class="rating"><span>{{rating}}</span></td>
+      <tr class="facility {{cycle}} star-{{rating}} {{type}}" id="facility-{{id}}">
+        
         <td class="meta odd-col" >
           <h4>
-            <a href="./facility.html" class="name">{{name}}</a>
+            
+            <a href="/facilities/{{id}}" class="name type {{type}}">
+            
+              {{row}}. {{name}}</a>
           </h4>
-          <p class="address">{{address}}</p>
-          <p class="telephone">{{telephone}}</p>
-          {{#each services}}
-            <span class="service {{this}}" title="{{this}}">{{this}}</span>
-          {{/each}}
-          <dl class="extras">
-            <dt>Hours of Operation</dt>
-            <dd>{{hours}}</dd>
-            <dt>Type of Care provided</dt>
-            <dd>{{providers}}</dd>
-            <dt>Services Provided</dt>
-            <dd>{{description}}</dd>
-          </dl>
+          <p class="address">{{address}} / {{telephone}}</p>
+   
+          <div class="services type" style="padding:5px 0 0 0">
+            <span class="icon">&nbsp;</span>
+            
+          
+            {{#each services}}
+              <span class="service {{this}}" title="{{this}}">{{this}}</span>
+            {{/each}}
+          </div>
+          
         </td>
         
-        <td class="distance">{{distance}} Miles</td>
+        <td class="distance">{{distance}} miles</td>
         <td class="wait-time  odd-col">{{wait_time}}min</td>
-        <td class="stay-length">{{stay_length}}</td>
+        <td class="stay-length">{{stay_length}}min</td>
         <td class="co-pay  odd-col">${{co_pay}}</td>
         <td class="savings">${{savings}}</td>
-        
-        <td class="action  " style="padding:20px">
-          <a class="button">HOLD!</a>
+        <td class="rating"><span>{{rating}}</span></td>
+        <td class="action" style="padding:20px">
+          <a class="button hold" data-name="{{name}}" data-address="{{address}}">HOLD!</a>
         </td>
+        
       </tr>
+    </script>
+    
+    <script type="text/x-handlebars-template" id="facility-show-template">
+      <div class="type {{type}}">{{type}}</div>
+      <div class="rating">{{rating}}</div>
+      <h2>{{name}}</h2>
+      <p class="address">{{address}}</p>
+      <p class="telephone">{{telephone}}</p>
+      
+      <table>
+        <tr><td class="key">Distance</td><td class="value">{{distance}} miles</td></tr>
+        <tr><td class="key">Wait Time</td><td class="value">{{wait_time}}min</td></tr>
+        <tr><td class="key">Stay Length</td><td class="value">{{stay_length}}min</td></tr>
+        <tr><td class="key">Co-pay</td><td class="value">${{co_pay}}</td></tr>
+        <tr><td class="key">Savings vs ER</td><td class="value">${{savings}}</td></tr>
+        <tr><td class="key">Hours of Operation</td><td class="value">
+        {{#each hours}}
+          <p>{{this}}</p>
+        {{/each}}
+        </td></tr>
+        <tr><td class="key">Services</td><td class="value">{{providers}}</td></tr>
+        <tr><td class="key">Type of Care</td><td class="value">{{description}}</td></tr>
+      </table>
+      
+      
     </script>
     
     <script type="text/x-handlebars-template" id="visit-template">
@@ -63,6 +90,7 @@
       </tr>
     </script>
     
+    
     <script type="text/x-handlebars-template" id="category-template">
       <li class="button">
         <a href="./category.html?id={{id}}" class="{{html_class}} type"><span class="icon">&nbsp;</span><span class="name">{{name}}</span></a>
@@ -74,7 +102,7 @@
 	
 
 </head>
-<body id='home_index'>
+<body <% if @body_id %> id='<%= @body_id %>' <% end %>>
 
 <header> 
       
@@ -86,8 +114,8 @@
         <nav id="main-nav">
           
           <ul>
-            <li><a href="/application/rewards">Rewards</a></li>
-            <li><a href="/application/about">About</a></li>
+            <li><a href="/rewards">Rewards</a></li>
+            <li><a href="/about">About</a></li>
             <li><a href="/facilities/map" >Find a facility</a></li>
             <li><a href="/application/newsletter">Newsletter</a></li>
             <li><a href="./plan.html">Plan Info</a></li>

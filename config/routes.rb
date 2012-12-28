@@ -2,17 +2,27 @@ Quicksee::Application.routes.draw do
   
   
   
+  match 'about' => 'home#about'
+  match 'rewards' => 'home#about'
+
+
   get "members/login"
   post "members/authenticate"
 
-  get "facilities/home"
+  get "facilities/compare"
+  
+
+
+  
+  
   get "facilities/cities"
   get "facilities/map"
   get "facilities/locate"
   get 'facilities/plot_latlong'
   post 'facilities/update_latlong'
   
-
+  resources :facilities
+  
   root :to => 'facilities#cities'
 
 

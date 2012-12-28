@@ -1,0 +1,24 @@
+<script>
+	// This code dumps all the provider addresses into a json object,
+	// and then iterates through each, pings the geocoder service for each
+	// address to get lang long, saves the coordinates in an object keyed
+	// by the provider id, that we then pass through a jquery 
+	
+	var showProviderAddress = <%= @provider_address.to_json(:include => :provider).html_safe %>
+	
+</script>
+
+<div id="page">
+  
+  <section class="framed">
+    <a class="button hold" style="font-size:20px;margin: 10px auto;display:block;width:300px;text-align:center;position:absolute;right:60px;top:20px;">Hold Your Spot</a>
+    
+    <div id="map" style="position:absolute;top:115px;right:10px;width:400px;border:solid 1px #ccc;">
+      <div id="map_canvas" style="height:315px"></div>
+    </div>
+    <div id="facility"></div>
+    
+    
+  </section>
+  
+</div>

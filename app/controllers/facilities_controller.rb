@@ -1,7 +1,7 @@
 class FacilitiesController < ApplicationController
-  def home
-    rebekka = Member.find(2550);
-    render :inline => rebekka.hp_last_name
+
+  def compare
+      
   end
   
   def cities
@@ -9,7 +9,7 @@ class FacilitiesController < ApplicationController
   end
   
   def map
-    
+    @body_id = 'facilities_index'
   end
   
   def locate
@@ -29,11 +29,13 @@ class FacilitiesController < ApplicationController
   end
 
   def plot_latlong
-    @provider_addresses = ProviderAddress.where({:qs_latitude => nil, :qs_longitude => nil})
+    @provider_addresses = ProviderAddress.where('latlong_updated IS NULL')
   end
 
   def update_latlong
     @provider = ProviderAddress.find(params[:id])
+    @provider.latlong_updated = true
+    
     logger.debug "Existing Provider #{@provider.qs_latitude.inspect}"
     
     @provider.qs_longitude = params[:lat]
@@ -45,4 +47,8 @@ class FacilitiesController < ApplicationController
     end
   end
 
+  def show
+    @body_id = 'facilities_show'
+    @provider_address = ProviderAddress.includes(:provider).find(params[:id])
+  end
 end

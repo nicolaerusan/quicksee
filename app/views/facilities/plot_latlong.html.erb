@@ -31,7 +31,7 @@
 		        	type: 'POST',
 		        	url:'/facilities/update_latlong',
 		        	data:{
-		        		id: provider.qs_providerID,
+		        		id: provider.qs_provider_addressID,
 		        		lat: results[0].geometry.location.lat(),
 		        		lng: results[0].geometry.location.lng()
 		        	},

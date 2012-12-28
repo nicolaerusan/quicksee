@@ -69,6 +69,12 @@ var App = {
     
 	$.each(App.map.facilities, function(i) {
         this.name = this.provider.hp_provider_legal_name ?  this.provider.hp_provider_legal_name : this.provider.hp_provider_name;
+		
+		this.cycle = i%2 ? "even" : "odd";
+      	this.id    = this.qs_provider_addressID;
+      	this.row   = i + 1;
+      	this.savings = 250 - this.co_pay;
+		
 		var result = template(this);
 		this.address = this.hp_address_line1 + " " + this.hp_address_line2;
 		var content = "<h4 style='padding:0 20px 10px 0'>" + this.provider.hp_provider_legal_name + "</h4><small>"+this.address+"</small><br/><small>Phone : "+formatPhone(this.hp_telephone_number)+"</small><br/><small>2PM-3PM (Mock)</small>";
@@ -149,13 +155,14 @@ App.header = {
 
 App.map = {
   canvas      : '#map_canvas',
-  init        : function() {
+  init        : function(startLatLng) {
   	//var startLat = geoplugin_latitude();
   	//var startLong = geoplugin_longitude();
     
     
     
     //var startLatLng = new google.maps.LatLng(startLat, startLong);
+    
     var startLatLng = city.latlng;
     
     
@@ -318,7 +325,7 @@ $(document).ready(function(e) {
   App.init();
   
  
-  pageId = $('#page').attr('class')
+  pageId = $('body').attr('id');
   switch(pageId) {
     
     case 'facilities_index':
@@ -365,11 +372,21 @@ $(document).ready(function(e) {
       
       
     case 'facilities_show':
+      
       App.map.init();
-      var template_source   = $('#facility-template').html()
+      var template_source   = $('#facility-show-template').html()
         , template          = Handlebars.compile(template_source);
+		
+		
+		showProviderAddress.name = showProviderAddress.provider.hp_provider_legal_name ?  showProviderAddress.provider.hp_provider_legal_name : showProviderAddress.provider.hp_provider_name;
 
-        var result = template(App.map.facilities[0]);
+		// TODO mock
+		showProviderAddress.address = showProviderAddress.hp_address_line1 + " " + showProviderAddress.hp_address_line2;
+		
+		$.extend(showProviderAddress, {rating : 5, distance : "0" , wait_time : "20" , stay_length : "40" , co_pay : "25" , savings : "8" , type : "telemedicine" , providers : "Physicians" , hours : ["24 hours"] , description : "Non-emergency medical issue including: Cold and flu symptoms, Bronchitis, Allergies, Poison ivy, Pink eye, Urinary tract infection, Respiratory infection, Sinus problems, and Ear infection" , telephone : "(800) TELEDOC" , services : ['lab', 'pharmacy'] }); 
+		
+
+        var result = template(showProviderAddress);
         
         $(result).appendTo($('#facility'));
     break;
