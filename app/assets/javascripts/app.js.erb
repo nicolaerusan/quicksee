@@ -118,6 +118,46 @@ var App = {
 }
 
 
+App.categories = [
+  {
+      name        : "Urgent Care"
+    , description : "Usually have extended hours, designed to be used for minor illnesses and limited preventative care as well as more acute (but not serious or life threatening) illnesses and injuries that are beyond the abilities of a regular walk-in clinic"
+    , treatments  : [ "Broken Bones", "Ear Infection", "Bladder Infection"]
+    , html_class  : "urgent_care"
+  },
+  {
+      name        : "Telemedicine"
+    , description : "Usually have extended hours and use audio/video communications as well as still or live images for diagnosis and treatment of uncomplicated, minor illnesses"
+    , treatments  : [ "Joint or Back Pain", "Ear Infection", "Bladder Infection", "Pulmonary Infection"]
+    , html_class  : "telemedicine"
+  },
+  {
+      name        : "Walk In Clinic"
+    , description : "Usually have extended hours, may be staffed by physicians, nurse practitioners and physicians' assistants, designed to be used for minor illnesses and limited preventative care"
+    , treatments  : [ "Ear Infection", "Bladder Infection", "Allergies", "Skin Infection", "Joint or Back Pain", "Bronchitis"]
+    , html_class  : "walk_in_clinic"
+  },
+  {
+      name        : "Retail Clinic"
+    , description : "Usually located in supermarkets and pharmacies with extended hours, staffed by nurse practitioners and physicians' assistants, designed to be used for minor illnesses and limited preventative care"
+    , treatments  : [ "Cold & Flu", "Sore Throat", "Allergies", "Pain Relief"]
+    , html_class  : "retail_clinic"
+  },
+  {
+      name        : "Urgent Dental"
+    , description : "Dental clinics with extended hours, offering same-day appointments as well as seeing walk-in patients for routine preventative care, treatment of toothaches, pain around the teeth, gums, or the jaw"
+    , treatments  : [ "Toothache", "Abcess"]
+    , html_class  : "urgent_dental"
+  },
+  {
+      name        : "24h Pharmacy"
+    , description : "Pharmacies with 24-hour service for obtaining prescription medications, related health care products, and other remedies which may be needed"
+    , treatments  : [ "Cold & Flu", "Sore Throat", "Allergies", "Pain Relief"]
+    , html_class  : "pharmacy_24h"
+  }
+]
+
+
 App.header = {
   el          : 'body > header',
   provider_el : '#provider-logo',
@@ -391,8 +431,7 @@ $(document).ready(function(e) {
         $(result).appendTo($('#facility'));
     break;
     
-    case 'home_index':
-      
+ 	case 'home_index':
       var template_source   = $('#category-template').html()
         , template          = Handlebars.compile(template_source)
         
@@ -402,6 +441,7 @@ $(document).ready(function(e) {
       });
       
       $('#categories li').on({
+
         
         click     : function(e) {
           e.preventDefault();
@@ -426,27 +466,40 @@ $(document).ready(function(e) {
       });
       
       break;
-    
-    default:
-      
-      $('#categories li').on({
-        mouseover : function(e) {
-          $('#description').html($(this).find('p').html())
-        },
+    case 'categories_show':
+      var template_source   = $('#category-template').html()
+        , template          = Handlebars.compile(template_source)
+        , id                = Number(getURLParameter('id')) || 0
+        , category          = App.categories[id]
         
-        mouseout : function(e) {
-          $('#description').html()
-        }
-      })
-    
-      $('#categories li').on('click', function(e) {
-        e.preventDefault();
-        $('#user_form_category').val($(this).find('a').attr('class'));
-        $('#user_form').submit();
-      })
+   
+        $('#page .wrap').append($(template(category)));
+      break;
+    default:
   }
   
+    
+  $('#overlay .close').on('click', function(e) {
+    $('#overlay').hide();
+  });
+
   
+  // Quick addition, this is horrible, must refactor
+  $('.hold').live('click', function(e) {
+    
+    $('#overlay').show();
+    $('#overlay h4').html($(this).data('name'));
+    $('#overlay .address').html($(this).data('address'));
+    $('#user_form').show();
+    
+    $('#overlay_msg').hide();
+  });
+  
+  $('#overlay #user_form').submit(function(e) {
+    e.preventDefault();
+    $(this).hide();
+    $('#overlay_msg').show();
+  })
   
 
   

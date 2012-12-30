@@ -5,6 +5,8 @@ Quicksee::Application.routes.draw do
   match 'about' => 'home#about'
   match 'rewards' => 'home#about'
 
+  match 'login' => 'members#login'
+  match 'logout' => 'members#logout'
 
   get "members/login"
   post "members/authenticate"

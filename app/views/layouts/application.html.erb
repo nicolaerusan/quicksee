@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <%= csrf_meta_tags %>
+
   <title>Quicksee</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
@@ -13,7 +15,6 @@
   
   <% end %>
   
-  <%= csrf_meta_tags %>
 
 <script type="text/x-handlebars-template" id="facility-template">
 
@@ -118,10 +119,34 @@
             <li><a href="/about">About</a></li>
             <li><a href="/facilities/map" >Find a facility</a></li>
             <li><a href="/application/newsletter">Newsletter</a></li>
-            <li><a href="./plan.html">Plan Info</a></li>
+            
+            <li><a href="/plan.html">Plan Info</a></li>
             <li><a href="./contact.html">Contact Us</a></li>
+            <% if current_user %>
+            	<li><a href="/logout">Log Out</a></li>
+			<% else %>            	
+            	<li><a href="/login">Log In</a></li>
+			<% end %>
           </ul>
+          
+          
+          
         </nav>
+        <% if current_user %>
+		    <div id="account">
+		      <div id="account-info">
+		
+		        <div id="deductible-stat">
+		          <span class="value">$<%= current_user.hp_remaining_deductible.floor %></span>
+		          <label>Hello <%= current_user.hp_first_name %>, your remaining deductible is </label>
+		          <small>(as of 12/12/2012)</small>
+		          
+		
+		        </div>
+		      </div>
+		    </div>
+		  <% end %>
+        
         
         <table id="history" >
           <thead>
@@ -138,9 +163,14 @@
           </tbody>
         </table>
         
+        
+        
       </div>
 
+
 </header>
+
+<%= flash.notice %>
 
 <%= yield %>
 
