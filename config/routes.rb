@@ -2,6 +2,8 @@ Quicksee::Application.routes.draw do
   
   match 'about' => 'home#about'
   match 'rewards' => 'home#about'
+  match 'compare' => 'facilities#compare'
+
 
   match 'login' => 'members#login'
   match 'logout' => 'members#logout'
