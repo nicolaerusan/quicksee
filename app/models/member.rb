@@ -4,4 +4,7 @@ class Member < ActiveRecord::Base
  
   self.table_name = 'member'
   self.primary_key = 'qs_memberID'
+  
+  has_one :member_eligibility
+  
 end

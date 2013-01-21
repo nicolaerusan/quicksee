@@ -1,7 +1,5 @@
 Quicksee::Application.routes.draw do
   
-  
-  
   match 'about' => 'home#about'
   match 'rewards' => 'home#about'
 
@@ -12,9 +10,6 @@ Quicksee::Application.routes.draw do
   post "members/authenticate"
 
   get "facilities/compare"
-  
-
-
   
   
   get "facilities/cities"

@@ -68,21 +68,21 @@ var App = {
     
     
 	$.each(App.map.facilities, function(i) {
-        this.name = this.provider.hp_provider_legal_name ?  this.provider.hp_provider_legal_name : this.provider.hp_provider_name;
+        this.name = this.hp_provider_legal_name ?  this.hp_provider_legal_name : this.hp_provider_name;
 		
 		this.cycle = i%2 ? "even" : "odd";
-      	this.id    = this.qs_provider_addressID;
+      	this.id    = this.qs_providerID;
       	this.row   = i + 1;
       	this.savings = 250 - this.co_pay;
 		
 		var result = template(this);
-		this.address = this.hp_address_line1 + " " + this.hp_address_line2;
-		var content = "<h4 style='padding:0 20px 10px 0'>" + this.provider.hp_provider_legal_name + "</h4><small>"+this.address+"</small><br/><small>Phone : "+formatPhone(this.hp_telephone_number)+"</small><br/><small>2PM-3PM (Mock)</small>";
+		this.address = this.provider_address.hp_address_line1 + " " + this.provider_address.hp_address_line2;
+		var content = "<h4 style='padding:0 20px 10px 0'>" + this.name + "</h4><small>"+this.address+"</small><br/><small>Phone : "+formatPhone(this.provider_address.hp_telephone_number)+"</small><br/><small>2PM-3PM (Mock)</small>";
 		$(result).appendTo($('#facilities tbody'));
       
         
-      	if(this.qs_latitude){
-      		var latLongTemp = this.qs_longitude + "," + this.qs_latitude;
+      	if(this.provider_address.qs_latitude){
+      		var latLongTemp = this.provider_address.qs_longitude + "," + this.provider_address.qs_latitude;
       		console.log(latLongTemp); 
       		
       		$('#map_canvas').gmap(
@@ -418,10 +418,10 @@ $(document).ready(function(e) {
         , template          = Handlebars.compile(template_source);
 		
 		
-		showProviderAddress.name = showProviderAddress.provider.hp_provider_legal_name ?  showProviderAddress.provider.hp_provider_legal_name : showProviderAddress.provider.hp_provider_name;
+		//showProviderAddress.name = showProviderAddress.provider.hp_provider_legal_name ?  showProviderAddress.provider.hp_provider_legal_name : showProviderAddress.provider.hp_provider_name;
 
 		// TODO mock
-		showProviderAddress.address = showProviderAddress.hp_address_line1 + " " + showProviderAddress.hp_address_line2;
+		// showProviderAddress.address = showProviderAddress.hp_address_line1 + " " + showProviderAddress.hp_address_line2;
 		
 		$.extend(showProviderAddress, {rating : 5, distance : "0" , wait_time : "20" , stay_length : "40" , co_pay : "25" , savings : "8" , type : "telemedicine" , providers : "Physicians" , hours : ["24 hours"] , description : "Non-emergency medical issue including: Cold and flu symptoms, Bronchitis, Allergies, Poison ivy, Pink eye, Urinary tract infection, Respiratory infection, Sinus problems, and Ear infection" , telephone : "(800) TELEDOC" , services : ['lab', 'pharmacy'] }); 
 		

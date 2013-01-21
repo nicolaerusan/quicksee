@@ -21,11 +21,35 @@ class FacilitiesController < ApplicationController
       city = 'New York'
     end
     
-    @provider_addresses = ProviderAddress.includes(:provider).limit(100).where({:hp_city_name => city.upcase})
+    if(current_user)
+      logger.debug('here')
+      # Get the user's class plan through member_eligibility
+      
+      @member_eligibility = MemberEligibility.where({:qs_memberID => current_user.id}).first
+      
+      #use the classplan to get the network_id
+      @classplan = Classplan.where({:qs_classplanID => @member_eligibility.qs_classplanID}).first
+            
+      @providers = Provider.joins(:provider_address, :networks).includes(:provider_address, :networks).where(:provider_address => {:hp_postal_code => session[:zip_code]}).where(:network => {:qs_networkID => @classplan.qs_networkID})
+      
+      logger.debug(@providers.count)
+        
+      #only reutn providers in their zipcode, that are in their networkID
+      #:qs_networkID => users_network_id,
+      
+      #@network_providers = Provider.find(:all, :select)
+      #@provider_addresses = ProviderAddress.includes(:provider).limit(100).where({:hp_postal_code => session[:zip_code], :qs_providerID in})
+      
+      #@provider_addresses.joins(:network_id)
+      
+    else
+      @providers = Provider.joins(:provider_address).includes(:provider_address).limit(100).where({:hp_city_name => city.upcase})
+    end
     
-    logger.debug "TEST INFOOOO #{@provider_addresses.count}"
     
-    render :json => @provider_addresses.to_json(:include => :provider)
+    logger.debug "TEST INFOOOO #{@providers.count}"
+    
+    render :json => @providers.to_json(:include => :provider_address)
   end
 
   def plot_latlong

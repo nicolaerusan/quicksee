@@ -13,9 +13,12 @@ class MembersController < ApplicationController
     
     #authenticate = false 
     
+    #logger.debug(params)
+    
     if user && (params[:user_social])[-4,4] == user.hp_last_4_ssn
 
       session[:user_id] = user.id
+      session[:zip_code] = params[:user_zip]
       redirect_to '/facilities/map'
     else
       flash[:error] = "Invalid memberid of social"
@@ -26,6 +29,7 @@ class MembersController < ApplicationController
   
   def logout
     session[:user_id] = nil
+    session[:zip_code] = nil
     redirect_to '/login  ', :notice => "Logged out!"
   end
 end

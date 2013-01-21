@@ -7,5 +7,4 @@ class ProviderAddress < ActiveRecord::Base
   
   belongs_to :provider,  :foreign_key => "qs_providerID"
   
-  
 end
