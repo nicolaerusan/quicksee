@@ -10,11 +10,14 @@
   <%= javascript_include_tag "application" %>
   
   <%= javascript_tag do %>
-
-  	//App.map.city = '<%= params[:city] %>'
+  	var zipCode;
+  	<% if session[:zip_code] %>  		 
+  		zipCode = <%= session[:zip_code] %> 
+  	<% end %>
   
   <% end %>
   
+
 
 <script type="text/x-handlebars-template" id="facility-template">
 

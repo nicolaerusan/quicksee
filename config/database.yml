@@ -6,7 +6,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: quicksee_dev
+  database: quicksee_data
   host: localhost
   pool: 5
   username: nicolaerusan
@@ -23,7 +23,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: quicksee_dev
+  database: quicksee_data
   username: nicolaerusan
   pool: 5
   password:

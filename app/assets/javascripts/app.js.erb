@@ -24,7 +24,8 @@ var newyork = {
 // we check if a city param is passed in the URL.
 var city = newyork;
 var urlCity = getURLParameter('city');
-
+var startLatlng;
+var allMarkers = [];
 
 var App = {
   init : function() {
@@ -48,7 +49,7 @@ var App = {
     
     
   },
-  
+
   render : function() {
     
   },
@@ -57,7 +58,7 @@ var App = {
     var template_source   = $('#facility-template').html()
       , template          = Handlebars.compile(template_source);
       
-      var image = new google.maps.MarkerImage("<%= asset_path('marker.png') %>",
+      var image = new google.maps.MarkerImage("/assets/marker.png",
         // This marker is 20 pixels wide by 32 pixels tall.
         new google.maps.Size(20, 20),
         // The origin for this image is 0,0.
@@ -66,6 +67,12 @@ var App = {
         new google.maps.Point(0, 20));
     
     
+    var infowindow = new google.maps.InfoWindow({
+          isHidden:false
+          ,closeBoxURL: ""
+          ,pane: "mapPane"
+          ,enableEventPropagation: true
+        });
     
 	$.each(App.map.facilities, function(i) {
         this.name = this.hp_provider_legal_name ?  this.hp_provider_legal_name : this.hp_provider_name;
@@ -74,7 +81,7 @@ var App = {
       	this.id    = this.qs_providerID;
       	this.row   = i + 1;
       	this.savings = 250 - this.co_pay;
-		
+		console.log(this);
 		var result = template(this);
 		this.address = this.provider_address.hp_address_line1 + " " + this.provider_address.hp_address_line2;
 		var content = "<h4 style='padding:0 20px 10px 0'>" + this.name + "</h4><small>"+this.address+"</small><br/><small>Phone : "+formatPhone(this.provider_address.hp_telephone_number)+"</small><br/><small>2PM-3PM (Mock)</small>";
@@ -82,22 +89,34 @@ var App = {
       
         
       	if(this.provider_address.qs_latitude){
-      		var latLongTemp = this.provider_address.qs_longitude + "," + this.provider_address.qs_latitude;
-      		console.log(latLongTemp); 
+      		//var latLongTemp = this.provider_address.qs_longitude + "," + ;
+      		//console.log(latLongTemp); 
+      		var position =  new google.maps.LatLng(this.provider_address.qs_latitude, this.provider_address.qs_longitude);
+      		console.log(App.map.mapObject);
+      		console.log(image);
+      		console.log(position);
+      		var marker = new google.maps.Marker({
+      			map:App.map.mapObject,
+      			position: new google.maps.LatLng(this.provider_address.qs_longitude, this.provider_address.qs_latitude),   
+      			icon:image
+      		});
       		
-      		$('#map_canvas').gmap(
-      			'addMarker', 
-      			{
-      				position: latLongTemp,   
-      				icon:image
-      			}
-      		).click(
-      			function() {
-      				$('#map_canvas').gmap('openInfoWindow', {'content': content}, this);
-      			}
-	      	);
+      		
+	  		 google.maps.event.addListener(marker, 'click', (function(marker, i) {
+	            var contentString = ""
+	
+	            return function() {
+	                infowindow.setContent(content);
+	                infowindow.open(map, marker);
+	            }
+	            })(marker, i)); //end add marker listener
+
+      		
+      		allMarkers.push(marker);
 		}      		
 	});
+	
+	console.log(allMarkers);
   },
   
   renderHistory  : function() {
@@ -198,21 +217,43 @@ App.map = {
   init        : function(startLatLng) {
   	//var startLat = geoplugin_latitude();
   	//var startLong = geoplugin_longitude();
-    
-    
-    
     //var startLatLng = new google.maps.LatLng(startLat, startLong);
     
+    // We use the zipcode if it's set in the session, 
+    // otherwise we use the current city.
     var startLatLng = city.latlng;
     
+   // alert('din');
+    //$('aside').html(startLatlng);
     
-    $(this.canvas).gmap({
-        'center' : startLatLng
-      , 'zoom'   : 13 
-    });
-    
+  	var myOptions = {
+			zoom: 13,
+			center: startLatLng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
    
+  	this.mapObject =  new google.maps.Map(document.getElementById("map_canvas"), myOptions);
     
+        
+    if (zipCode != null){
+    	 geocoder = new google.maps.Geocoder();
+	  	 geocoder.geocode( { 'address': String(zipCode)}, function(results, status) {
+	      if (status == google.maps.GeocoderStatus.OK) {
+	      	latLng = results[0].geometry.location;
+	      	App.map.mapObject.setCenter(latLng);
+	     	//App.map.mapObject.setCenter([75.1749671, 39.9531865]);
+	     		
+	      } else {
+	        alert("Geocode was not successful for the following reason: " + status);
+	      }
+	      
+  			
+
+	      
+	    });	
+    	
+    }
+   
   },
   
    facilities  : [
@@ -370,7 +411,8 @@ $(document).ready(function(e) {
     
     case 'facilities_index':
       
-      // alert if it's null
+      // If no zipcode is specified in the session
+      // We check if a city has been specified in the URL and center to that city.
       if(urlCity == 'newyork'){
       	city = newyork;
       }
@@ -397,7 +439,7 @@ $(document).ready(function(e) {
 	  $.ajax({
 	  	url: '/facilities/locate',
 	  	data:{
-	  		city : city.name
+	  		//city : city.name
 	  	},
 	  	success:function(data){
 	  		//console.log(data);
