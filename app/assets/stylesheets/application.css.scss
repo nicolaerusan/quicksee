@@ -262,7 +262,7 @@ body > footer > nav > a:after {
   cursor: pointer; }
 
 #map .wrap {
-  position: relative;
+  //position: relative;
   padding: 0 0 0 0;
   clear: both; }
 
@@ -554,12 +554,12 @@ aside {
     margin: 0 0 0 0;
     border-bottom: dashed 1px #ccc; }
 #facilities_index #map {
-  position: relative;
+  //position: relative;
   float: left;
   width: 700px;
   padding: 10px;
   margin: 0 0 0 0px;
-  z-index: 999;
+  //z-index: 999;
   background: -moz-linear-gradient(top, #b8d4e1 0%, #6fd1f5);
   background: -webkit-gradient(linear, left top, left bottom, from(#b8d4e1), to(#6fd1f5));
   border: 0 solid #ffffff;

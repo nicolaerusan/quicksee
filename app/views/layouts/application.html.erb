@@ -30,7 +30,7 @@
             
               {{row}}. {{name}}</a>
           </h4>
-          <p class="address">{{address}} / {{telephone}}</p>
+          <p class="address">{{address}} / {{phone}}</p>
    
           <div class="services type" style="padding:5px 0 0 0">
             <span class="icon">&nbsp;</span>
@@ -194,16 +194,46 @@
 </footer>
 
  
-<div id="overlay">
-  <div id="overlay_window">
-    <div class="wrap">
-      <a class="close" title="close this window">X</a>
-      
-      <div id="facility_type_details" class="large">
-        
+    <div id="overlay">
+      <div id="overlay_window">
+        <div class="wrap">
+          <a class="close" title="close this window">X</a>
+          
+          <div class="facility" style="padding: 5px 0;border-bottom:dashed 2px #ccc;margin : 0 0 10px 0">
+            <span>Hold Your Place in line at</span>
+            <h4>Northeastern ReadyCare</h4>
+            <p class="address">2301 E Allegheny Ave, Suite 150, Philadelphia, PA 19134</p>
+          </div>
+          <div id="overlay_msg">Your request has been sent. Please check your email for confirmation.</div>
+          <form action="./facilities.html" method="GET" id="user_form">
+            
+            <input type="hidden" name="category" id="user_form_category" value="urgent_care"></input>
+            <fieldset>
+
+              <label>How do we reach you?</label>
+              <input type="text" placeholder="Your email" id="user_email"></input>
+              <input type="text" placeholder="Your phone number" id="user_telephone"></input>
+              
+              <label>Who is your primary care physician?</label>
+              <input type="text" placeholder="Primary Care Physician" id="user_physician"></input>
+
+              
+              <label>Please describe in a few words your symptoms</label>
+              <textarea placeholder="i.e: Nausea, Migraine, difficulty breathing..."></textarea>
+              
+              <label style="display:inline-block">You will be arriving in</label>
+              <select style="display:inline-block">
+                <option>15 mins</option>
+                <option>30 mins</option>
+                <option>1 Hour</option>
+                <option>2 Hours</option>
+              </select>
+              <input type="submit" value="Hold It" class="button"></input>
+            </fieldset>
+
+          </form>
+        </div>
       </div>
-    </div>
-  </div>
-</div> <!-- END #overlay -->
+    </div> <!-- END #overlay -->
 </body>
 </html>

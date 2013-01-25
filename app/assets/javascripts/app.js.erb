@@ -69,10 +69,15 @@ var App = {
     
     var infowindow = new google.maps.InfoWindow({
           isHidden:false
-          ,closeBoxURL: ""
           ,pane: "mapPane"
-          ,enableEventPropagation: true
+          ,enableEventPropagation: true,
+          disableAutoPan: false
         });
+    
+   	google.maps.event.addListener(App.map.mapObject, 'click', (function() {
+   		infowindow.close();
+   	}));
+
     
 	$.each(App.map.facilities, function(i) {
         this.name = this.hp_provider_legal_name ?  this.hp_provider_legal_name : this.hp_provider_name;
@@ -81,16 +86,86 @@ var App = {
       	this.id    = this.qs_providerID;
       	this.row   = i + 1;
       	this.savings = 250 - this.co_pay;
-		console.log(this);
-		var result = template(this);
+      	
+      	this.phone =   formatPhone(this.provider_address.hp_telephone_number);
+		
+		//console.log(this);
+		
+		//console.log(startLatlng);
+		var R = 6.371; // km
+		var lat2 = 39.9531865;
+		var lon2 = -75.1749671;
+
+		this.distance =  Math.acos(Math.sin(this.provider_address.qs_latitude) * Math.sin(lat2) + 
+                  Math.cos(this.provider_address.qs_latitude) * Math.cos(lat2) *
+                  Math.cos(lon2-this.provider_address.qs_longitude)) * R;
+		this.distance = Math.round(this.distance);
+		 
 		this.address = this.provider_address.hp_address_line1 + " " + this.provider_address.hp_address_line2;
-		var content = "<h4 style='padding:0 20px 10px 0'>" + this.name + "</h4><small>"+this.address+"</small><br/><small>Phone : "+formatPhone(this.provider_address.hp_telephone_number)+"</small><br/><small>2PM-3PM (Mock)</small>";
+				console.log(this.hp_type_code);
+		
+		
+		this.hp_type_code = this.hp_type_code.replace(/^\s+|\s+$/g,'')
+
+		switch(this.hp_type_code){
+			case 'RC':
+			this.co_pay = 35;
+			this.type = 'retail_clinic';
+			break;
+			
+			case 'TM':
+			this.co_pay = 25;
+			this.type = 'telemedicine';
+			break;
+			
+			case 'ER':
+			this.co_pay = 250;
+			this.type = 'urgent_care';
+			break;
+			
+			case 'UC':
+			this.co_pay = 50;
+			this.type = 'urgent_care';
+			break;
+		}
+		
+		var min = 2;
+		var max = 5;
+		
+		this.rating = Math.floor(Math.random() * (max - min + 1)) + min;
+		
+		
+		var min_wait = 15;
+		var max_wait = 50;
+		
+		this.wait_time = Math.floor(Math.random() * (max_wait - min_wait + 1)) + min_wait;
+		
+		
+		this.wait_time = Math.round( this.wait_time/ 5) * 5
+		
+		
+		
+		var min_stay = 30;
+		var max_stay = 75;
+		
+		this.stay_length = Math.floor(Math.random() * (max_stay - min_stay + 1)) + min_stay;
+		
+		
+		this.stay_length = Math.round( this.stay_length/ 5) * 5
+		
+		
+		this.savings = 250;
+		
+		var result = template(this);
+		
+		var content = "<h4 style='padding:0 20px 10px 0'>" + this.name + "</h4><small>"+this.address+"</small><br/><small>Phone : "+formatPhone(this.provider_address.hp_telephone_number)+"</small><br/><small>9AM-6PM</small>";
 		$(result).appendTo($('#facilities tbody'));
       
         
       	if(this.provider_address.qs_latitude){
       		//var latLongTemp = this.provider_address.qs_longitude + "," + ;
       		//console.log(latLongTemp); 
+      		
       		var position =  new google.maps.LatLng(this.provider_address.qs_latitude, this.provider_address.qs_longitude);
       		console.log(App.map.mapObject);
       		console.log(image);
@@ -102,16 +177,22 @@ var App = {
       		});
       		
       		
+      		
 	  		 google.maps.event.addListener(marker, 'click', (function(marker, i) {
 	            var contentString = ""
-	
+
 	            return function() {
 	                infowindow.setContent(content);
+	                //App.map.mapObject.setCenter(marker.lat-100, marker.lng-100);
 	                infowindow.open(map, marker);
+	                // trying to close the winddow on click
+		 			map.panTo(marker.getLatLng());
+
 	            }
 	            })(marker, i)); //end add marker listener
 
-      		
+			 
+				      		
       		allMarkers.push(marker);
 		}      		
 	});
@@ -227,7 +308,7 @@ App.map = {
     //$('aside').html(startLatlng);
     
   	var myOptions = {
-			zoom: 13,
+			zoom: 11,
 			center: startLatLng,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
@@ -239,8 +320,10 @@ App.map = {
     	 geocoder = new google.maps.Geocoder();
 	  	 geocoder.geocode( { 'address': String(zipCode)}, function(results, status) {
 	      if (status == google.maps.GeocoderStatus.OK) {
+			
 	      	latLng = results[0].geometry.location;
 	      	App.map.mapObject.setCenter(latLng);
+	      	startLatlng = latLng;
 	     	//App.map.mapObject.setCenter([75.1749671, 39.9531865]);
 	     		
 	      } else {
@@ -442,7 +525,7 @@ $(document).ready(function(e) {
 	  		//city : city.name
 	  	},
 	  	success:function(data){
-	  		//console.log(data);
+	  		console.log(data);
 	  		console.log(data);
 	  		App.map.facilities = data
 	  		App.renderResults();

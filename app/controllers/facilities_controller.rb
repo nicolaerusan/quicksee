@@ -30,7 +30,7 @@ class FacilitiesController < ApplicationController
       #use the classplan to get the network_id
       @classplan = Classplan.where({:qs_classplanID => @member_eligibility.qs_classplanID}).first
             
-      @providers = Provider.joins(:provider_address, :networks).includes(:provider_address, :networks).where(:provider_address => {:hp_postal_code => session[:zip_code]}).where(:network => {:qs_networkID => @classplan.qs_networkID})
+      @providers = Provider.joins(:provider_address, :networks).includes(:provider_address, :networks).where(:hp_type_code => ['TM', 'UC', 'RC', 'ER']).where(:network => {:qs_networkID => @classplan.qs_networkID})
       
       logger.debug(@providers.count)
         
