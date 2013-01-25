@@ -559,7 +559,7 @@ $(document).ready(function(e) {
  	case 'home_index':
       var template_source   = $('#category-template').html()
         , template          = Handlebars.compile(template_source)
-        
+        console.log(App.categories);
       $.each(App.categories, function(i) {
         this.id = i;
         $('#categories ul').append($(template(this)));
