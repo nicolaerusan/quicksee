@@ -22,6 +22,10 @@ class FacilitiesController < ApplicationController
     end
     
     if(current_user)
+    
+    
+    
+    
       logger.debug('here')
       # Get the user's class plan through member_eligibility
       
